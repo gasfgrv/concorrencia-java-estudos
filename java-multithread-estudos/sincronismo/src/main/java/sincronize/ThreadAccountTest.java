@@ -7,18 +7,20 @@ public class ThreadAccountTest implements Runnable {
 
     public static void main(String... args) {
         ThreadAccountTest teste = new ThreadAccountTest();
-        new Thread(teste, "T1").start();
-        new Thread(teste, "T2").start();
+        Thread t1 = new Thread(teste, "T1");
+        Thread t2 = new Thread(teste, "T2");
 
+        t1.start();
+        t2.start();
     }
 
-    private void withdrawal(int amount) {
+    private synchronized void withdrawal(int amount) {
         if (account.getBalance() >= amount) {
-            System.out.println(Thread.currentThread().getName() + "Success");
+            System.out.println(Thread.currentThread().getName() + ": Success");
             account.withdrawal(amount);
-            System.out.println(Thread.currentThread().getName() + "Current value: " + account.getBalance());
+            System.out.println(Thread.currentThread().getName() + ": Current value: " + account.getBalance());
         } else {
-            System.out.println(Thread.currentThread().getName() + "error");
+            System.out.println(Thread.currentThread().getName() + ": error");
         }
     }
 
