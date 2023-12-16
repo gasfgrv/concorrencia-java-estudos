@@ -29,7 +29,7 @@ public class ThreadAccountTest implements Runnable {
         for (int i = 0; i < 5; i++) {
             withdrawal(10);
             if (account.getBalance() < 0) {
-                System.out.println("ERROR!!!!!!!!!!!!!!!");
+                System.out.println("Balance is negative");
             }
         }
     }
