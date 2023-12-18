@@ -43,6 +43,7 @@ public class Members implements AutoCloseable {
         open = false;
         synchronized (emails) {
             System.out.println(Thread.currentThread().getName() + " closing");
+            emails.notifyAll();
         }
     }
 }
