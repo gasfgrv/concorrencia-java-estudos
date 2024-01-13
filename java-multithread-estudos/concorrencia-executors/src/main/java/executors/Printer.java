@@ -1,8 +1,12 @@
 package executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.TimeUnit;
 
 class Printer implements Runnable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Printer.class);
     private final int num;
 
     public Printer(int num) {
@@ -11,8 +15,7 @@ class Printer implements Runnable {
 
     @Override
     public void run() {
-        System.out.printf("%s inicio: %s%n",
-                Thread.currentThread().getName(), num);
+        LOGGER.info("{} inicio: {}", Thread.currentThread().getName(), num);
 
         try {
             TimeUnit.SECONDS.sleep(2);
@@ -21,7 +24,6 @@ class Printer implements Runnable {
             throw new RuntimeException(e);
         }
 
-        System.out.printf("%s finalizou%n",
-                Thread.currentThread().getName());
+        LOGGER.info("{} finalizou", Thread.currentThread().getName());
     }
 }

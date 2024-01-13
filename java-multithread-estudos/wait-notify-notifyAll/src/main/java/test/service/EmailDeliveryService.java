@@ -1,8 +1,11 @@
 package test.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import test.domain.Members;
 
 public class EmailDeliveryService implements Runnable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailDeliveryService.class);
     private final Members members;
 
     public EmailDeliveryService(Members members) {
@@ -12,19 +15,19 @@ public class EmailDeliveryService implements Runnable {
     @Override
     public void run() {
         String threadName = Thread.currentThread().getName();
-        System.out.println(threadName + " starting to delivery emails...");
+        LOGGER.info("{} starting to delivery emails...", threadName);
         while (members.isOpen() || members.pendingEmails() > 0) {
             try {
                 String email = members.retrieveEmail();
                 if (email == null) continue;
-                System.out.println(threadName + " sending email to " + email);
+                LOGGER.info("{} sending email to {}", threadName, email);
                 Thread.sleep(2000);
-                System.out.println(threadName + " successfully sent email to " + email);
+                LOGGER.info("{} successfully sent email to {}", threadName, email);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 Thread.currentThread().interrupt();
             }
         }
-        System.out.println("All emails are sent successfully");
+        LOGGER.info("All emails are sent successfully");
     }
 }

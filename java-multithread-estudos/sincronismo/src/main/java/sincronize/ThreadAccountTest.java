@@ -1,9 +1,12 @@
 package sincronize;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sincronize.domain.Account;
 
 public class ThreadAccountTest implements Runnable {
-    private Account account = new Account();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadAccountTest.class);
+    private final Account account = new Account();
 
     public static void main(String... args) {
         ThreadAccountTest teste = new ThreadAccountTest();
@@ -16,11 +19,11 @@ public class ThreadAccountTest implements Runnable {
 
     private synchronized void withdrawal(int amount) {
         if (account.getBalance() >= amount) {
-            System.out.println(Thread.currentThread().getName() + ": Success");
+            LOGGER.info("{}: Success", Thread.currentThread().getName());
             account.withdrawal(amount);
-            System.out.println(Thread.currentThread().getName() + ": Current value: " + account.getBalance());
+            LOGGER.info("{}: Current value: {}", Thread.currentThread().getName(), account.getBalance());
         } else {
-            System.out.println(Thread.currentThread().getName() + ": error");
+            LOGGER.info("{}: error", Thread.currentThread().getName());
         }
     }
 
@@ -29,7 +32,7 @@ public class ThreadAccountTest implements Runnable {
         for (int i = 0; i < 5; i++) {
             withdrawal(10);
             if (account.getBalance() < 0) {
-                System.out.println("Balance is negative");
+                LOGGER.info("Balance is negative");
             }
         }
     }

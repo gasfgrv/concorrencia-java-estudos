@@ -1,9 +1,13 @@
 package test.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Members implements AutoCloseable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Members.class);
     private final Queue<String> emails = new ArrayBlockingQueue<>(10);
     private boolean open = true;
 
@@ -20,18 +24,18 @@ public class Members implements AutoCloseable {
     public void addMemberEmail(String email) {
         synchronized (emails) {
             String threadName = Thread.currentThread().getName();
-            System.out.println(threadName + " add email in queue");
+            LOGGER.info("{} add email in queue", threadName);
             emails.add(email);
             emails.notifyAll();
         }
     }
 
     public String retrieveEmail() throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " checking if there are emails");
+        LOGGER.info("{} checking if there are emails", Thread.currentThread().getName());
         synchronized (emails) {
             while (emails.isEmpty()) {
                 if (!open) return null;
-                System.out.println(Thread.currentThread().getName() + " no email available, entering in waiting mode");
+                LOGGER.info("{} no email available, entering in waiting mode", Thread.currentThread().getName());
                 emails.wait();
             }
             return emails.poll();
@@ -42,7 +46,7 @@ public class Members implements AutoCloseable {
     public void close() {
         open = false;
         synchronized (emails) {
-            System.out.println(Thread.currentThread().getName() + " closing");
+            LOGGER.info("{} closing", Thread.currentThread().getName());
             emails.notifyAll();
         }
     }

@@ -1,6 +1,10 @@
 package com.github.gasfgrv;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RunnableExemplo implements Runnable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RunnableExemplo.class);
     private final char c;
 
     public RunnableExemplo(char c) {
@@ -9,11 +13,11 @@ public class RunnableExemplo implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName());
+        LOGGER.info(Thread.currentThread().getName());
         for (int i = 0; i < 500; i++) {
-            System.out.print(c);
+            LOGGER.info(String.valueOf(c));
             if (i % 100 == 0) {
-                System.out.println();
+                LOGGER.info("");
             }
         }
     }

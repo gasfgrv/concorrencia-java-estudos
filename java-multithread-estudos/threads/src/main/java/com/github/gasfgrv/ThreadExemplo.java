@@ -1,6 +1,10 @@
 package com.github.gasfgrv;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ThreadExemplo extends Thread {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadExemplo.class);
     private final char c;
 
     public ThreadExemplo(char c) {
@@ -9,7 +13,7 @@ public class ThreadExemplo extends Thread {
 
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName());
+        LOGGER.info(Thread.currentThread().getName());
         for (int i = 0; i < 500; i++) {
             System.out.print(c);
             quebraLinha(i);
@@ -28,7 +32,7 @@ public class ThreadExemplo extends Thread {
 
     private static void quebraLinha(int i) {
         if (i % 100 == 0) {
-            System.out.println();
+            LOGGER.info("");
         }
     }
 }
