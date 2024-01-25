@@ -16,6 +16,7 @@
         <module>wait-notify-notifyAll</module>
         <module>concorrencia-atomic-integer</module>
         <module>concorrencia-executors</module>
+        <module>concorrencia-completable-future</module>
     </modules>
 
     <properties>
